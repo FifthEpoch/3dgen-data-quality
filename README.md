@@ -40,10 +40,15 @@
    - Be sure to organize your 3D and 2D data according to the train/test split so only data in the train split is accessed during training.
 4. Finetune 12 clip models for the three caption types (pseudo captions, human-generated captions, LVM-generated captions), two model categories (chair and table), and for two attributes (shapes and color) by running the script below:
    ```
-   python finetune_clip.py
+   python finetune_clip.py --gen3d_root <path to 3dgen-data-quality directory on your local machine>
    ```
 5. Training the TAPS3D model with three different caption types (pseudo captions, human-generated captions, LVM-generated captions) in two model categories (chair and table)
    - Download the pretrained model checkpoint for the chair and table categories from [this link](https://drive.google.com/drive/folders/1oJ-FmyVYjIwBZKDAQ4N1EEcE9dJjumdW) provided by the GET3D authors
+       - Place the two pretrained checkpoints into a new directory inside the ```3dgen-data-quality/TAPS3D/```
+         ```
+         cd <path to 3dgen-data-quality directory on your local machine>
+         mkdir TAPS3D/GET3D_pretrained/
+         ```
    - Train the TAPS3D models. one at a time.
        - For example, to train a model with shapenet chair and human-generated caption paired dataset, run the following:
          ```
