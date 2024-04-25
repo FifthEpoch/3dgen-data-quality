@@ -76,6 +76,6 @@
 
 #### Special Thanks
 These codes are partially adopted from the projects listed below. We thank everyone who shared their codes!
-    - [comp-t2i-dataset](https://github.com/Seth-Park/comp-t2i-dataset?tab=readme-ov-file#compositional-splits)
-    - [GET3D](https://github.com/nv-tlabs/GET3D/tree/master)
-    - [TAPS3D](https://github.com/plusmultiply/TAPS3D)
+- [comp-t2i-dataset](https://github.com/Seth-Park/comp-t2i-dataset?tab=readme-ov-file#compositional-splits)
+- [GET3D](https://github.com/nv-tlabs/GET3D/tree/master)
+- [TAPS3D](https://github.com/plusmultiply/TAPS3D)
