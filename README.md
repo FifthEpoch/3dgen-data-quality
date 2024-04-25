@@ -12,11 +12,20 @@
 - We provide a script to install packages.
 
 #### Steps to Reproduce 
-1. Clone this repository with
+1. Clone repositories
+    - Clone this repository with
    ```
    gh repo clone FifthEpoch/3dgen-data-quality
    ```
-2. Download shapenet dataset and produce 2D renderings
+   - Clone GET3D inside of ```3dgen-data-quality``` and set up the subdirectory.
+   ```
+   cd 3dgen-data-quality/TAPS3D
+   git clone git@github.com:nv-tlabs/GET3D.git
+   cd GET3D; mkdir cache; cd cache
+   wget https://api.ngc.nvidia.com/v2/models/nvidia/research/stylegan3/versions/1/files/metrics/inception-2015-12-05.pkl
+
+   ```
+3. Download shapenet dataset and produce 2D renderings
     - Download the ShapeNetCore.v1 dataset either from shapenet's [official site](https://shapenet.org/) or from [huggingface](https://huggingface.co/datasets/ShapeNet/ShapeNetCore)
     - Download Blender following the [official link](https://www.blender.org/download/releases/2-90/), we used Blender v2.90.0, we haven't tested on other versions.
     - Install required libraries:
@@ -32,17 +41,17 @@
       ```
          - (Optional) The code will save the output from blender to tmp.out, this is not necessary for training, and can be removed by rm -rf tmp.out
          - This code is adopted from this [GitHub repo](https://github.com/panmari/stanford-shapenet-renderer), we thank the author for sharing the codes!
-3. Prepare Compositional Split Generation for Clip-R Precision Evaluation
+4. Prepare Compositional Split Generation for Clip-R Precision Evaluation
    - Produce 5 splits (Train, Test seen, Test unseen, Test unseen in diverse styles, Test swapped) for two attributes (colors and shapes) for each caption dataset by running the below file:
    ```
    python generate_comp_split.py
    ```
    - Be sure to organize your 3D and 2D data according to the train/test split so only data in the train split is accessed during training.
-4. Finetune 12 clip models for the three caption types (pseudo captions, human-generated captions, LVM-generated captions), two model categories (chair and table), and for two attributes (shapes and color) by running the script below:
+5. Finetune 12 clip models for the three caption types (pseudo captions, human-generated captions, LVM-generated captions), two model categories (chair and table), and for two attributes (shapes and color) by running the script below:
    ```
    python finetune_clip.py --gen3d_root <path to 3dgen-data-quality directory on your local machine>
    ```
-5. Training the TAPS3D model with three different caption types (pseudo captions, human-generated captions, LVM-generated captions) in two model categories (chair and table)
+6. Training the TAPS3D model with three different caption types (pseudo captions, human-generated captions, LVM-generated captions) in two model categories (chair and table)
    - Download the pretrained model checkpoint for the chair and table categories from [this link](https://drive.google.com/drive/folders/1oJ-FmyVYjIwBZKDAQ4N1EEcE9dJjumdW) provided by the GET3D authors
        - Place the two pretrained checkpoints into a new directory inside the ```3dgen-data-quality/TAPS3D/```
          ```
@@ -55,12 +64,12 @@
          python train.py --outdir ./data/human_captions/chair/texw_2-0_geow_0-2_lr_0-002_metrics --caption_type human_captions --num_gpus 2 --batch_size 4 --batch_gpu 2 --network <project_root>/TAPS3D/GET3D_pretrained/shapenet_chair.pt --seed 0 --snap 1000 --lr 0.002 --lambda_global 1 --lambda_direction 0 --lambda_imgcos 1 --image_root <project_root>/TAPS3D/ShapeNetCoreRendering/img --gen_class chair --mask_weight 0.05 --workers 8 --tex_weight 2 --geo_weight 0.2 --metrics fid50k_full,kid50k_full,pr50k3_full
          ```
        - With 2 A100s. our training time for each model is approxiately 10 hours.
-6. Generate 3D models with the trained TAPS3D models, preparing 3D models for Clip-R Precision evaluation by running the below file:
+7. Generate 3D models with the trained TAPS3D models, preparing 3D models for Clip-R Precision evaluation by running the below file:
    ```
    python end2end.py
    ```
    - This script first generates 3D models using text prompts from each of the five splits, then it renders the generated 3D models, and uses CLIP to make prediction based on the renderings.
-7. Compute clip-r-precision by running the below file:
+8. Compute clip-r-precision by running the below file:
    ```
    python compute_r_precision.py
    ```
