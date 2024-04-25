@@ -47,7 +47,7 @@
    python generate_comp_split.py
    ```
    - Be sure to organize your 3D and 2D data according to the train/test split so only data in the train split is accessed during training.
-5. Finetune 12 clip models for the three caption types (pseudo captions, human-generated captions, LVM-generated captions), two model categories (chair and table), and for two attributes (shapes and color) by running the script below:
+5. Finetune clip models for the three caption types (pseudo captions, human-generated captions, LVM-generated captions), two model categories (chair and table), and for two attributes (shapes and color) by running the script below:
    ```
    python finetune_clip.py --gen3d_root <path to 3dgen-data-quality directory on your local machine>
    ```
@@ -74,3 +74,8 @@
    python compute_r_precision.py
    ```
 
+#### Special Thanks
+These codes are partially adopted from the projects listed below. We thank everyone who shared their codes!
+    - [comp-t2i-dataset](https://github.com/Seth-Park/comp-t2i-dataset?tab=readme-ov-file#compositional-splits)
+    - [GET3D](https://github.com/nv-tlabs/GET3D/tree/master)
+    - [TAPS3D](https://github.com/plusmultiply/TAPS3D)
