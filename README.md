@@ -1,4 +1,4 @@
-# Caption Training Data and their Effects on the Performance of Text-guided 3D Generative AI
+# Captioning Methods and their Effects on the Performance of Text-guided 3D Generative AI
 
 #### Abstract
 
