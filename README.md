@@ -52,7 +52,7 @@
    ```
    - This script first generates 3D models using text prompts from each of the five splits, then it renders the generated 3D models, and uses CLIP to make prediction based on the renderings.
 6. Compute clip-r-precision by running the below file:
-```
-python compute_r_precision.py
-```
+   ```
+   python compute_r_precision.py
+   ```
 
