@@ -32,11 +32,18 @@
       ```
          - (Optional) The code will save the output from blender to tmp.out, this is not necessary for training, and can be removed by rm -rf tmp.out
          - This code is adopted from this [GitHub repo](https://github.com/panmari/stanford-shapenet-renderer), we thank the author for sharing the codes!
-3. Training the TAPS3D model with three different caption types (pseudo captions, human-generated captions, LVM-generated captions) in two model categories (chair and table)
+3. Prepare Compositional Split Generation for Clip-R Precision Evaluation
+   - Produce 5 splits (Train, Test seen, Test unseen, Test unseen in diverse styles, Test swapped) for two attributes (colors and shapes) for each caption dataset by running the below file:
+   ```
+   python generate_comp_split.py
+   ```
+   - Be sure to order your 3D and 2D data according to the train/test split so only data in the train split is accessed during training.
+4. Training the TAPS3D model with three different caption types (pseudo captions, human-generated captions, LVM-generated captions) in two model categories (chair and table)
    - Download the pretrained model checkpoint for the chair and table categories from [this link](https://drive.google.com/drive/folders/1oJ-FmyVYjIwBZKDAQ4N1EEcE9dJjumdW) provided by the GET3D authors
    - Train the TAPS3D models. one at a time.
        - For example, to train a model with shapenet chair and human-generated caption paired dataset, run the following:
          ```
          python train.py --outdir ./data/human_captions/chair/texw_2-0_geow_0-2_lr_0-002_metrics --caption_type human_captions --num_gpus 2 --batch_size 4 --batch_gpu 2 --network <project_root>/TAPS3D/GET3D_pretrained/shapenet_chair.pt --seed 0 --snap 1000 --lr 0.002 --lambda_global 1 --lambda_direction 0 --lambda_imgcos 1 --image_root <project_root>/TAPS3D/ShapeNetCoreRendering/img --gen_class chair --mask_weight 0.05 --workers 8 --tex_weight 2 --geo_weight 0.2 --metrics fid50k_full,kid50k_full,pr50k3_full
          ```
-       - With 2 A100s. our training time for each model is approxiately 10 hours. 
+       - With 2 A100s. our training time for each model is approxiately 10 hours.
+
