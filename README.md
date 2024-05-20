@@ -67,13 +67,13 @@ The creation of virtual 3D objects often requires laborious and time-consuming e
        - With 2 A100s. our training time for each model is approxiately 10 hours.
 7. Generate 3D models with the trained TAPS3D models, preparing 3D models for Clip-R Precision evaluation by running the below file:
    ```
-   python end2end.py
+   python end2end.py --chair_checkpoint_dir <name of directory where chair checkpoint file is> --chair_checkpoint_name <checkpoint file name> --table _checkpoint_dir <name of directory where table checkpoint file is> --table_checkpoint_name <checkpoint file name>
    ```
-   - This script first generates 3D models using text prompts from each of the five splits, then it renders the generated 3D models, and uses CLIP to make prediction based on the renderings.
-8. Compute clip-r-precision by running the below file:
-   ```
-   python compute_r_precision.py
-   ```
+   - This script
+     1. Generates 3D models using text prompts from each of the five splits.
+     2. Renders the generated 3D models.
+     3. Uses CLIP to make prediction based on the renderings.
+     4. Compute Clip R Precision
 
 #### Special Thanks
 These codes are partially adopted from the projects listed below. We thank everyone who shared their codes!
